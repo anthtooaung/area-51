@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Area 51 Places</title>
+
+<style>
+
+body{
+    font-family: Arial, sans-serif;
+    background:#0a0a0f;
+    color:white;
+    margin:0;
+}
+
+/* SECTION */
+
+.places{
+    padding:70px 10%;
+    text-align:center;
+}
+
+.places h2{
+    font-size:36px;
+    margin-bottom:40px;
+    letter-spacing:2px;
+}
+
+/* GRID */
+
+.places-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:30px;
+}
+
+/* CARD */
+
+.place-card{
+    background:#111;
+    border-radius:10px;
+    overflow:hidden;
+    transition:0.4s;
+}
+
+.place-card img{
+    width:100%;
+    height:200px;
+    object-fit:cover;
+}
+
+.place-content{
+    padding:20px;
+}
+
+.place-content h3{
+    color:#00ff9c;
+    margin-bottom:10px;
+}
+
+.place-card:hover{
+    transform:translateY(-8px);
+    box-shadow:0 10px 25px rgba(0,255,156,0.2);
+}
+
+</style>
+</head>
+
+<body>
+
+<section class="places">
+
+<h2>Mysterious Places Around Area 51</h2>
+
+<div class="places-grid">
+
+<!-- PLACE 1 -->
+
+<div class="place-card">
+<img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470">
+
+<div class="place-content">
+<h3>Groom Lake</h3>
+<p>
+A dry lakebed inside Area 51 used as a runway for testing secret
+military aircraft.
+</p>
+</div>
+
+</div>
+
+<!-- PLACE 2 -->
+
+<div class="place-card">
+<img src="https://images.unsplash.com/photo-1500534623283-312aade485b7">
+
+<div class="place-content">
+<h3>Extraterrestrial Highway</h3>
+<p>
+A remote Nevada highway famous for UFO sightings and mysterious
+lights in the sky.
+</p>
+</div>
+
+</div>
+
+<!-- PLACE 3 -->
+
+<div class="place-card">
+<img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa">
+
+<div class="place-content">
+<h3>Black Mailbox</h3>
+<p>
+A legendary spot where UFO enthusiasts gather hoping to see
+unexplained flying objects.
+</p>
+</div>
+
+</div>
+
+<!-- PLACE 4 -->
+
+<div class="place-card">
+<img src="https://images.unsplash.com/photo-1446776811953-b23d57bd21aa">
+
+<div class="place-content">
+<h3>Papoose Lake</h3>
+<p>
+Rumored location of a secret alien research facility known as
+"S-4" in conspiracy theories.
+</p>
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+</body>
+</html>

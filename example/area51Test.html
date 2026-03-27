@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Area 51 | Classified Briefing</title>
+    <style>
+        :root {
+            --bg-color: #0a0a0a;
+            --panel-bg: #121212;
+            --border-color: #2a2a2a;
+            --text-main: #e0e0e0;
+            --text-dim: #888888;
+            --accent: #a32a2a;
+            /* Muted Red */
+            --accent-soft: rgba(163, 42, 42, 0.1);
+            --font-main: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: var(--font-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* --- Header --- */
+        header {
+            padding: 20px 40px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            background: rgba(10, 10, 10, 0.95);
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+
+        .system-title h1 {
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        .access-label {
+            font-size: 0.7rem;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: 1px solid var(--accent);
+            padding: 2px 8px;
+            animation: pulse 2s infinite;
+        }
+
+        /* --- Layout Containers --- */
+        main {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        section {
+            margin-bottom: 80px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s ease-out;
+        }
+
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .panel {
+            background: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            padding: 30px;
+            position: relative;
+        }
+
+        /* --- Overview --- */
+        .briefing-summary {
+            border-left: 3px solid var(--accent);
+        }
+
+        .briefing-summary p {
+            font-size: 1.1rem;
+            color: var(--text-dim);
+            max-width: 800px;
+        }
+
+        /* --- Data Grid --- */
+        .data-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .data-card {
+            padding: 20px;
+            border: 1px solid var(--border-color);
+            transition: background 0.3s ease;
+        }
+
+        .data-card:hover {
+            background: var(--accent-soft);
+            border-color: var(--accent);
+        }
+
+        .label {
+            display: block;
+            font-size: 0.65rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+
+        .value {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        /* --- Timeline --- */
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background: var(--border-color);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 40px;
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            left: -34px;
+            top: 8px;
+            width: 8px;
+            height: 8px;
+            background: var(--accent);
+        }
+
+        .timeline-date {
+            font-weight: bold;
+            color: var(--accent);
+            display: block;
+        }
+
+        /* --- Intelligence Accordion --- */
+        .accordion-item {
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .accordion-header {
+            width: 100%;
+            padding: 20px 0;
+            background: none;
+            border: none;
+            color: var(--text-main);
+            text-align: left;
+            font-size: 1rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            color: var(--text-dim);
+            font-size: 0.95rem;
+            padding-bottom: 0;
+        }
+
+        .accordion-item.active .accordion-content {
+            max-height: 200px;
+            padding-bottom: 20px;
+        }
+
+        /* --- Image Gallery --- */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        .img-placeholder {
+            aspect-ratio: 16/9;
+            background: #1a1a1a;
+            border: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-dim);
+            font-size: 0.8rem;
+            filter: grayscale(100%);
+            transition: 0.3s;
+            cursor: crosshair;
+        }
+
+        .img-placeholder:hover {
+            filter: grayscale(0%);
+            transform: scale(1.02);
+            border-color: var(--text-dim);
+        }
+
+        /* --- Footer --- */
+        footer {
+            padding: 60px 0;
+            text-align: center;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-dim);
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+        }
+
+        @keyframes pulse {
+            0% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.4;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+
+            header {
+                padding: 15px 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="system-title">
+            <h1>Area 51: Classified Briefing</h1>
+        </div>
+        <div class="access-label">Access Level: Restricted</div>
+    </header>
+
+    <main>
+        <section id="overview" class="panel briefing-summary">
+            <span class="label">System Message // Initialization Complete</span>
+            <p>Groom Lake is a highly classified United States Air Force (USAF) facility located within the Nevada Test
+                and Training Range. While its primary purpose is officially designated for the testing of experimental
+                aircraft and weapons systems, the facility remains the focal point of modern conspiracy culture.</p>
+        </section>
+
+        <section id="data-grid" class="data-grid">
+            <div class="data-card">
+                <span class="label">Location</span>
+                <div class="value">Lincoln County, NV</div>
+            </div>
+            <div class="data-card">
+                <span class="label">Established</span>
+                <div class="value">1955</div>
+            </div>
+            <div class="data-card">
+                <span class="label">Operator</span>
+                <div class="value">U.S. Air Force</div>
+            </div>
+            <div class="data-card">
+                <span class="label">Status</span>
+                <div class="value">Active / Top Secret</div>
+            </div>
+        </section>
+
+        <section id="timeline">
+            <h2 style="margin-bottom: 30px; font-weight: 300; letter-spacing: 2px;">OPERATIONAL TIMELINE</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <span class="timeline-date">1955</span>
+                    <p>Facility established by the CIA for Project AQUATONE (U-2 reconnaissance aircraft).</p>
+                </div>
+                <div class="timeline-item">
+                    <span class="timeline-date">1960s</span>
+                    <p>Development of the A-12 OXCART and the SR-71 Blackbird stealth programs.</p>
+                </div>
+                <div class="timeline-item">
+                    <span class="timeline-date">2013</span>
+                    <p>Official declassification and acknowledgment of the facility's existence by the CIA.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="intelligence">
+            <div class="accordion-item">
+                <button class="accordion-header">UFO SIGHTINGS <span>+</span></button>
+                <div class="accordion-content">
+                    High-altitude testing of experimental crafts often resulted in reports of unidentified aerial
+                    phenomena (UAP) by civilian pilots and local residents.
+                </div>
+            </div>
+            <div class="accordion-item">
+                <button class="accordion-header">ADVANCED AIRCRAFT <span>+</span></button>
+                <div class="accordion-content">
+                    Site for testing "black projects" including the F-117 Nighthawk and various unmanned aerial vehicles
+                    (UAVs).
+                </div>
+            </div>
+            <div class="accordion-item">
+                <button class="accordion-header">EXTRATERRESTRIAL HYPOTHESES <span>+</span></button>
+                <div class="accordion-content">
+                    Unsubstantiated claims regarding the storage and reverse-engineering of crashed alien spacecraft,
+                    popularized by whistleblowers in the late 1980s.
+                </div>
+            </div>
+        </section>
+
+        <section id="gallery">
+            <div class="gallery-grid">
+                <div class="img-placeholder">[SATELLITE VIEW - REDACTED]</div>
+                <div class="img-placeholder">[HANGAR 18 - RESTRICTED]</div>
+                <div class="img-placeholder">[AERIAL SCAN - 051]</div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>THE MYSTERIOUS PLACE &copy; 2026 // GROUP PROJECT</p>
+    </footer>
+
+    <script>
+        // Reveal sections on scroll
+        const observerOptions = { threshold: 0.1 };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('section').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Accordion Logic
+        document.querySelectorAll('.accordion-header').forEach(header => {
+            header.addEventListener('click', () => {
+                const item = header.parentElement;
+                item.classList.toggle('active');
+                header.querySelector('span').innerText = item.classList.contains('active') ? '-' : '+';
+            });
+        });
+    </script>
+
+</body>
+
+</html>

@@ -1,11 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Evidence Board</title>
+    <link rel="stylesheet" href="../css/index.css">
+    <title>Evidence Board | Top Secret</title>
 </head>
-<body>
-    
+
+<body class="bg-neutral-950 text-neutral-300 font-mono overflow-hidden">
+    <div class="fixed inset-0 pointer-events-none z-50 overflow-hidden">
+        <div class="noise"></div>
+    </div>
+
+    <main class="h-screen w-screen p-8 relative flex flex-col">
+        <header class="border-b border-red-900/50 pb-4 mb-8 flex justify-between items-end">
+            <div>
+                <h1 class="text-3xl font-black tracking-tighter text-red-600 glitch-text" data-text="EVIDENCE BOARD">
+                    EVIDENCE BOARD</h1>
+                <p class="text-xs uppercase tracking-widest text-neutral-500">Classification: Top Secret //
+                    Compartmentalized</p>
+            </div>
+            <div class="text-right text-[10px] text-neutral-600">
+                CASE ID: 51-ALPHA-9<br>
+                DATE: 27-MAR-2026
+            </div>
+        </header>
+
+        <div
+            class="flex-1 relative border-2 border-neutral-900 bg-neutral-900/30 paper-texture p-4 overflow-auto rounded-sm">
+            <!-- Evidence items would go here -->
+            <div class="absolute inset-0 flex items-center justify-center">
+                <div class="text-center opacity-20">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+                        class="mx-auto mb-4">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10" />
+                    </svg>
+                    <p class="text-xl uppercase tracking-[0.5em]">No Data Decrypted</p>
+                </div>
+            </div>
+        </div>
+
+        <footer class="mt-8 flex justify-between items-center text-[10px] uppercase tracking-widest text-neutral-600">
+            <div>Property of United States Intelligence Agency</div>
+            <div class="flex gap-4">
+                <a href="index.html" class="hover:text-yellow-500 transition-colors">Return to Archive</a>
+                <span>Terminal 04</span>
+            </div>
+        </footer>
+    </main>
+
+
+    <script>
+        const setupGlitch = () => {
+            const title = document.querySelector('.typewriter-animation');
+            if (title) {
+                title.classList.add('glitch-text');
+                title.setAttribute('data-text', title.textContent.trim());
+            }
+        };
+    </script>
 </body>
+
 </html>

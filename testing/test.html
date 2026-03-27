@@ -223,59 +223,85 @@
     </div>
 </div>
 
-<!-- time line -->
-<div class="overflow-x-auto p-6 bg-gray-900">
-    <!-- Timeline axis -->
-    <div class="flex items-center gap-4 border-b border-gray-600 pb-2">
-        <div class="w-24 text-center text-neon-cyan font-bold">1950</div>
-        <div class="w-24 text-center text-neon-cyan font-bold">1960</div>
-        <div class="w-24 text-center text-neon-cyan font-bold">1970</div>
-        <div class="w-24 text-center text-neon-cyan font-bold">1980</div>
-        <div class="w-24 text-center text-neon-cyan font-bold">1990</div>
-        <div class="w-24 text-center text-neon-cyan font-bold">2000</div>
-        <div class="w-24 text-center text-neon-cyan font-bold">2010</div>
-        <div class="w-24 text-center text-neon-cyan font-bold">2020</div>
+<!-- time line section -->
+<section class="overflow-x-auto py-24 bg-gradient-to-b from-neutral-700 via-neutral-800 to-neutral-800">
+
+    <div class="min-w-[900px]">
+        <!-- Axis -->
+        <div class="flex justify-between border-b border-gray-600 pb-2 text-neon-cyan font-bold">
+            <span>1950</span>
+            <span>1960</span>
+            <span>1970</span>
+            <span>1980</span>
+            <span>1990</span>
+            <span>2000</span>
+            <span>2010</span>
+            <span>2020</span>
+        </div>
+
+        <!-- Timeline -->
+        <div class="relative mt-20 flex justify-between items-center">
+
+            <!-- TOP -->
+            <div class="flex flex-col items-center -translate-y-16">
+                <div class="p-4 bg-neon-cyan/20 border border-neon-cyan rounded-lg w-32 text-center">
+                    <div class="text-sm font-bold text-white">1955</div>
+                    <div class="text-xs text-gray-300">CIA acquires Groom Lake.</div>
+                </div>
+                <div class="h-10 w-[2px] bg-neon-cyan mt-2"></div>
+            </div>
+
+            <!-- MIDDLE -->
+            <div class="flex flex-col items-center">
+                <div class="h-10 w-[2px] bg-neon-cyan mb-2"></div>
+                <div class="p-4 bg-neon-cyan/20 border border-neon-cyan rounded-lg w-32 text-center">
+                    <div class="text-sm font-bold text-white">1960s</div>
+                    <div class="text-xs text-gray-300">Project OXCART testing.</div>
+                </div>
+            </div>
+
+            <!-- BOTTOM -->
+            <div class="flex flex-col items-center translate-y-16">
+                <div class="h-10 w-[2px] bg-neon-cyan mb-2"></div>
+                <div class="p-4 bg-neon-cyan/20 border border-neon-cyan rounded-lg w-32 text-center">
+                    <div class="text-sm font-bold text-white">1977</div>
+                    <div class="text-xs text-gray-300">Have Blue prototype.</div>
+                </div>
+            </div>
+
+            <!-- TOP -->
+            <div class="flex flex-col items-center -translate-y-16">
+                <div class="p-4 bg-neon-cyan/20 border border-neon-cyan rounded-lg w-32 text-center">
+                    <div class="text-sm font-bold text-white">1989</div>
+                    <div class="text-xs text-gray-300">Bob Lazar claims.</div>
+                </div>
+                <div class="h-10 w-[2px] bg-neon-cyan mt-2"></div>
+            </div>
+
+            <!-- MIDDLE -->
+            <div class="flex flex-col items-center">
+                <div class="h-10 w-[2px] bg-neon-cyan mb-2"></div>
+                <div class="p-4 bg-neon-cyan/20 border border-neon-cyan rounded-lg w-32 text-center">
+                    <div class="text-sm font-bold text-white">2013</div>
+                    <div class="text-xs text-gray-300">CIA acknowledgment.</div>
+                </div>
+            </div>
+
+            <!-- BOTTOM -->
+            <div class="flex flex-col items-center translate-y-16">
+                <div class="h-10 w-[2px] bg-neon-cyan mb-2"></div>
+                <div class="p-4 bg-neon-cyan/20 border border-neon-cyan rounded-lg w-32 text-center">
+                    <div class="text-sm font-bold text-white">2019</div>
+                    <div class="text-xs text-gray-300">Storm Area 51 event.</div>
+                </div>
+            </div>
+
+        </div>
+        ```
+
     </div>
+</section>
 
-    <!-- Events bars -->
-    <div class="relative h-64 mt-6">
-        <!-- Event 1955 -->
-        <div class="absolute top-0 left-[55px] w-32 p-4 bg-neon-cyan/20 border border-neon-cyan rounded-lg">
-            <div class="text-sm font-bold text-white">1955 - CIA Acquisition</div>
-            <div class="text-xs text-gray-300">The CIA acquires Groom Lake for the U-2 spy plane.</div>
-        </div>
-
-        <!-- Event 1960s -->
-        <div class="absolute top-20 left-[160px] w-32 p-4 bg-neon-cyan/20 border border-neon-cyan rounded-lg">
-            <div class="text-sm font-bold text-white">1960s - Project OXCART</div>
-            <div class="text-xs text-gray-300">Testing of the A-12 begins at the facility.</div>
-        </div>
-
-        <!-- Event 1977 -->
-        <div class="absolute top-40 left-[265px] w-32 p-4 bg-neon-cyan/20 border border-neon-cyan rounded-lg">
-            <div class="text-sm font-bold text-white">1977 - Have Blue</div>
-            <div class="text-xs text-gray-300">First stealth prototype testing.</div>
-        </div>
-
-        <!-- Event 1989 -->
-        <div class="absolute top-0 left-[370px] w-32 p-4 bg-neon-cyan/20 border border-neon-cyan rounded-lg">
-            <div class="text-sm font-bold text-white">1989 - Bob Lazar Interview</div>
-            <div class="text-xs text-gray-300">Claims of reverse-engineering alien spacecraft.</div>
-        </div>
-
-        <!-- Event 2013 -->
-        <div class="absolute top-20 left-[585px] w-32 p-4 bg-neon-cyan/20 border border-neon-cyan rounded-lg">
-            <div class="text-sm font-bold text-white">2013 - Official Acknowledgment</div>
-            <div class="text-xs text-gray-300">CIA acknowledges Area 51 officially.</div>
-        </div>
-
-        <!-- Event 2019 -->
-        <div class="absolute top-40 left-[690px] w-32 p-4 bg-neon-cyan/20 border border-neon-cyan rounded-lg">
-            <div class="text-sm font-bold text-white">2019 - Storm Area 51</div>
-            <div class="text-xs text-gray-300">Viral event draws thousands to nearby towns.</div>
-        </div>
-    </div>
-</div>
 
 <!-- intelligence section -->
 <section id="conspiracies" class="py-24 bg-deep-blue relative overflow-hidden">

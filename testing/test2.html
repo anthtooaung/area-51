@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>VHS Effect — Analog Glitch / Pure CSS</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+            /* prevent accidental selection, keeps the retro feel */
+        }
+
+        body {
+            background: #000;
+            height: 100vh;
+            width: 100%;
+            overflow: hidden;
+            font-family: system-ui, 'Courier New', monospace;
+        }
+
+        /* MAIN VHS CONTAINER */
+        .vhs-effect {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+            /* --- MAIN BACKGROUND IMAGE (cinematic / retro style) --- */
+            background-image: url('../project/images/area51-map.png');
+            /* high-res landscape with rich colors */
+            background-size: cover;
+            background-position: center 30%;
+            background-repeat: no-repeat;
+
+            /* analog saturation & contrast */
+            filter: brightness(1.08) contrast(1.2) saturate(1.25);
+
+            /* subtle tape jitter (constant micro-movement) */
+            animation: tapeJitter 0.08s infinite steps(1);
+            transform-origin: center;
+        }
+
+        /* ===== RGB CHROMATIC ABERRATION (RED & BLUE SHIFT) ===== */
+        .vhs-effect::before,
+        .vhs-effect::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: inherit;
+            background-size: cover;
+            background-position: inherit;
+            background-repeat: no-repeat;
+            pointer-events: none;
+            mix-blend-mode: screen;
+            opacity: 0.65;
+            will-change: transform;
+        }
+
+        /* RED channel shift (offset to bottom-right, warm bleeding) */
+        .vhs-effect::before {
+            transform: translate(3px, 2px);
+            filter: hue-rotate(0deg) brightness(1.1);
+            mix-blend-mode: lighten;
+            opacity: 0.7;
+        }
+
+        /* BLUE/CYAN channel shift (offset to top-left, cool drift) */
+        .vhs-effect::after {
+            transform: translate(-4px, -1.5px);
+            filter: hue-rotate(200deg) brightness(0.95) contrast(1.1);
+            mix-blend-mode: screen;
+            opacity: 0.65;
+        }
+
+        /* ===== VHS OVERLAY: SCANLINES, NOISE, TRACKING GLITCH ===== */
+        .vhs-overlay {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            z-index: 15;
+            mix-blend-mode: overlay;
+        }
+
+        /* SCANLINES (classic horizontal retrace lines) */
+        .scanlines {
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(to bottom,
+                    rgba(0, 0, 0, 0.2) 0px,
+                    rgba(0, 0, 0, 0.2) 2px,
+                    transparent 2px,
+                    transparent 5px);
+            animation: flickerScan 0.12s infinite ease;
+            pointer-events: none;
+            opacity: 0.65;
+        }
+
+        /* VHS NOISE & GRAIN (moving film grain) */
+        .vhs-noise {
+            position: absolute;
+            inset: 0;
+            background-image: repeating-radial-gradient(circle at 20% 30%, rgba(255, 255, 240, 0.08) 1px, transparent 1px);
+            background-size: 4px 4px;
+            animation: noiseShift 0.18s infinite steps(2);
+            mix-blend-mode: overlay;
+            opacity: 0.4;
+            pointer-events: none;
+        }
+
+        /* ADDITIONAL COLOR BLEED + VHS GLOW */
+        .vhs-glint {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 50% 40%, rgba(255, 80, 120, 0.12) 0%, rgba(0, 255, 255, 0.08) 70%, transparent 100%);
+            mix-blend-mode: soft-light;
+            pointer-events: none;
+            animation: colorPulse 6s infinite alternate;
+        }
+
+        /* TRACKING ERROR — horizontal glitch bars that move */
+        .tracking-glitch {
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(90deg,
+                    transparent,
+                    transparent 70px,
+                    rgba(255, 255, 255, 0.08) 70px,
+                    rgba(255, 80, 120, 0.1) 95px,
+                    transparent 110px);
+            width: 100%;
+            height: 100%;
+            mix-blend-mode: hard-light;
+            opacity: 0.35;
+            pointer-events: none;
+            animation: trackingShift 0.45s infinite linear;
+            transform: skewX(0deg);
+        }
+
+        /* VHS HEAD-SWITCHING BAR (moving horizontal line) */
+        .head-switch {
+            position: absolute;
+            bottom: 15%;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.6);
+            box-shadow: 0 0 12px rgba(255, 0, 80, 0.8);
+            filter: blur(1px);
+            opacity: 0.5;
+            animation: headWave 3s infinite ease-in-out;
+            pointer-events: none;
+            mix-blend-mode: overlay;
+        }
+
+        /* secondary glitch line (random interference) */
+        .interference-line {
+            position: absolute;
+            top: 40%;
+            left: -10%;
+            width: 120%;
+            height: 3px;
+            background: rgba(255, 220, 100, 0.7);
+            filter: blur(1.2px);
+            transform: rotate(0.5deg);
+            opacity: 0.4;
+            animation: glitchMove 2.3s infinite alternate;
+            pointer-events: none;
+            mix-blend-mode: screen;
+        }
+
+        /* ========== ANIMATIONS ========== */
+
+        /* main image jitter — VHS tape instability */
+        @keyframes tapeJitter {
+            0% {
+                transform: translate(0px, 0px);
+            }
+
+            25% {
+                transform: translate(0.6px, -0.4px);
+            }
+
+            50% {
+                transform: translate(-0.5px, 0.7px);
+            }
+
+            75% {
+                transform: translate(0.3px, -0.2px);
+            }
+
+            100% {
+                transform: translate(0px, 0px);
+            }
+        }
+
+        /* scanline flicker + brightness variation */
+        @keyframes flickerScan {
+            0% {
+                opacity: 0.55;
+            }
+
+            25% {
+                opacity: 0.7;
+            }
+
+            50% {
+                opacity: 0.45;
+            }
+
+            75% {
+                opacity: 0.65;
+            }
+
+            100% {
+                opacity: 0.55;
+            }
+        }
+
+        /* noise layer dynamic movement */
+        @keyframes noiseShift {
+            0% {
+                background-position: 0 0;
+                opacity: 0.35;
+            }
+
+            33% {
+                background-position: 3px -2px;
+                opacity: 0.5;
+            }
+
+            66% {
+                background-position: -2px 4px;
+                opacity: 0.4;
+            }
+
+            100% {
+                background-position: 0 0;
+                opacity: 0.38;
+            }
+        }
+
+        /* color bleed / hue pulsation */
+        @keyframes colorPulse {
+            0% {
+                opacity: 0.2;
+                transform: scale(1);
+            }
+
+            100% {
+                opacity: 0.45;
+                transform: scale(1.02);
+            }
+        }
+
+        /* horizontal tracking distortion (like VHS tape misalignment) */
+        @keyframes trackingShift {
+            0% {
+                background-position: 0 0;
+                opacity: 0.3;
+                transform: skewX(0deg);
+            }
+
+            25% {
+                background-position: -35px 0;
+                opacity: 0.45;
+                transform: skewX(0.2deg);
+            }
+
+            50% {
+                background-position: 25px 0;
+                opacity: 0.5;
+                transform: skewX(-0.15deg);
+            }
+
+            75% {
+                background-position: -12px 0;
+                opacity: 0.35;
+                transform: skewX(0.1deg);
+            }
+
+            100% {
+                background-position: 0 0;
+                opacity: 0.3;
+                transform: skewX(0deg);
+            }
+        }
+
+        /* moving head-switch wave effect */
+        @keyframes headWave {
+            0% {
+                bottom: 10%;
+                opacity: 0.3;
+                height: 3px;
+                width: 100%;
+            }
+
+            25% {
+                bottom: 35%;
+                opacity: 0.7;
+                height: 6px;
+                width: 100%;
+            }
+
+            50% {
+                bottom: 65%;
+                opacity: 0.5;
+                height: 4px;
+                width: 100%;
+            }
+
+            75% {
+                bottom: 20%;
+                opacity: 0.8;
+                height: 5px;
+                width: 100%;
+            }
+
+            100% {
+                bottom: 10%;
+                opacity: 0.3;
+                height: 3px;
+            }
+        }
+
+        /* interference glitch line sliding */
+        @keyframes glitchMove {
+            0% {
+                top: 20%;
+                left: -15%;
+                opacity: 0.2;
+                width: 80%;
+            }
+
+            30% {
+                top: 55%;
+                left: -5%;
+                opacity: 0.6;
+                width: 110%;
+            }
+
+            70% {
+                top: 75%;
+                left: 5%;
+                opacity: 0.45;
+                width: 95%;
+            }
+
+            100% {
+                top: 40%;
+                left: -10%;
+                opacity: 0.3;
+                width: 105%;
+            }
+        }
+
+        /* additional subtle vertical roll (vhs tearing) */
+        .vhs-vertical-roll {
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(0deg,
+                    rgba(255, 100, 0, 0.05) 0px,
+                    rgba(0, 255, 255, 0.04) 2px,
+                    transparent 3px,
+                    transparent 8px);
+            mix-blend-mode: exclusion;
+            pointer-events: none;
+            animation: rollShift 0.22s infinite alternate;
+            opacity: 0.3;
+        }
+
+        @keyframes rollShift {
+            0% {
+                transform: translateY(0px);
+                opacity: 0.25;
+            }
+
+            100% {
+                transform: translateY(3px);
+                opacity: 0.45;
+            }
+        }
+
+        /* final touch: VHS rounded corners + "crt" edge vignette */
+        .vhs-vignette {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at center, transparent 60%, rgba(0, 0, 0, 0.55) 100%);
+            pointer-events: none;
+            z-index: 20;
+            mix-blend-mode: multiply;
+        }
+
+        /* optional corner rounded effect (like old tv) */
+        .vhs-effect {
+            border-radius: 0px;
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+
+        /* ensure content sits behind overlays but everything looks alive */
+        @media (max-width: 768px) {
+            .vhs-effect::before {
+                transform: translate(2px, 1.5px);
+                opacity: 0.6;
+            }
+
+            .vhs-effect::after {
+                transform: translate(-2px, -1px);
+                opacity: 0.6;
+            }
+
+            .tracking-glitch {
+                animation-duration: 0.6s;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="vhs-effect">
+        <!-- multilayer overlays for VHS authenticity -->
+        <div class="vhs-overlay">
+            <div class="scanlines"></div>
+            <div class="vhs-noise"></div>
+            <div class="vhs-glint"></div>
+            <div class="tracking-glitch"></div>
+            <div class="head-switch"></div>
+            <div class="interference-line"></div>
+            <div class="vhs-vertical-roll"></div>
+        </div>
+        <div class="vhs-vignette"></div>
+    </div>
+
+    <!-- subtle description (immersive but not intrusive) -->
+    <div
+        style="position: fixed; bottom: 12px; left: 12px; color: rgba(255,220,180,0.55); font-family: monospace; font-size: 11px; background: rgba(0,0,0,0.4); padding: 4px 10px; border-radius: 30px; backdrop-filter: blur(3px); pointer-events: none; z-index: 999; letter-spacing: 1px;">
+        VHS PLAY ▷ █ TAPE DISTORTION
+    </div>
+</body>
+
+</html>

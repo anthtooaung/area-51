@@ -128,13 +128,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
 $(document).ready(function () {
     $(".conspiracyBtn").click(function () {
-        const currentContent = $(this).closest(".conspiracyCard").find(".content");
+        const currentBtn = $(this);
+        const currentContent = currentBtn.closest(".conspiracyCard").find(".content");
 
-        // Close all others
-        $(".content").not(currentContent).slideUp(300);
+        // Close all others and reset their icons
+        $(".content").not(currentContent).slideUp(300).closest(".conspiracyCard").find(".conspiracyBtn").removeClass("open");
 
-        // Toggle current one
+        // Toggle current one and icon state
         currentContent.slideToggle(300);
+        currentBtn.toggleClass("open");
     });
 });
 

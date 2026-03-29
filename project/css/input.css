@@ -64,7 +64,7 @@ body::after {
   @apply w-full p-8 flex items-center justify-between text-left;
 }
 .conspiracyIcon {
-  @apply p-3 bg-neutral-500 rounded-lg group-hover:bg-neutral-600 group-hover:text-neutral-100 transition-all duration-300;
+  @apply p-3 transition-all duration-300;
 }
 .conspiracyHeader {
   @apply text-xl font-bold text-neutral-300 group-hover:text-neutral-50 transition-colors duration-300;
@@ -72,13 +72,32 @@ body::after {
 .conspiracyDetail {
   @apply text-sm text-neutral-300 font-light mt-1;
 }
+.conspiracyBtn .lucide {
+  transition:
+    transform 0.3s ease,
+    color 0.3s ease;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.conspiracyBtn.open .lucide path:nth-child(2) {
+  transform-box: fill-box;
+  transform-origin: center;
+  transform: scaleY(0);
+  opacity: 0;
+}
+
+.lucide-lock,
+.lucide-ghost,
+.lucide-radio {
+  @apply w-8 h-8 text-yellow-500/50 animate-pulse;
+}
 
 /* hide and click show detail */
 .hideBox {
-  @apply px-8 pb-8 pt-2 text-neutral-300 font-light leading-relaxed border-t border-neutral-400  bg-neutral-700;
+  @apply px-8 pb-8 pt-2 text-neutral-400 font-light leading-relaxed border-t border-yellow-500/50  bg-neutral-800;
 }
 .hideBoxLine {
-  @apply w-1 bg-neutral-300 rounded-full;
+  @apply w-1 bg-yellow-500/50 rounded-full;
 }
 
 /* OLD FILM grayscale */

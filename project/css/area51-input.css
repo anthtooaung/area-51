@@ -1,5 +1,4 @@
-@import "tailwindcss";
-@import "animate.css";
+@import "tailwindcss";@import "animate.css";
 
 body {
   @apply m-0 p-0 box-border bg-neutral-950 font-mono tracking-wide;
@@ -26,7 +25,7 @@ body::after {
 
 /* For the Summary section css */
 .markInfo {
-  @apply border-b-2 border-yellow-500 text-yellow-300;
+  @apply text-yellow-300/80;
 }
 
 /* For the Key section css */
@@ -98,6 +97,45 @@ body::after {
 }
 .hideBoxLine {
   @apply w-1 bg-yellow-500/50 rounded-full;
+}
+
+/* time line section  */
+
+.timelineRow {
+  @apply bg-neutral-800 relative rounded text-xs text-neutral-300 p-2 w-auto h-auto shadow-yellow-500/20 hover:border-yellow-500/20 border border-transparent hover:shadow-transparent duration-100 transition-all text-left tracking-widest uppercase font-bold shadow-lg;
+}
+/* time line title */
+.timelineTitle {
+  margin: auto;
+  width: 80%;
+  height: 40px;
+  padding: 5px;
+  text-align: center;
+  position: relative;
+  background: red;
+  margin-bottom: 0px;
+}
+.timelineTitle:after {
+  content: "";
+  position: absolute;
+  left: -20px;
+  bottom: 0;
+  width: 20px;
+  height: 40px;
+  background: transparent;
+  clip-path: polygon(100% 0, 0 50%, 100% 100%);
+}
+
+.timelineTitle:before {
+  content: "";
+  position: absolute;
+  right: -20px;
+  bottom: 0;
+  width: 0;
+  height: 0;
+  border-left: 20px solid red;
+  border-top: 20px solid transparent;
+  border-bottom: 20px solid transparent;
 }
 
 /* OLD FILM grayscale */
@@ -202,6 +240,52 @@ body::after {
   opacity: 0;
   animation: fadeIn 1s ease forwards;
   animation-delay: 1.5s;
+}
+
+/* Mysterious Redacted Text */
+.redacted {
+  background-color: #171717;
+  color: #171717;
+  cursor: help;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 0 4px;
+  font-weight: bold;
+  border-radius: 2px;
+}
+
+.redacted:hover {
+  background-color: #eab308;
+  color: #000;
+}
+
+/* Timeline Progress Line */
+.timeline-progress-line {
+  height: 0%; /* Controlled by JS */
+  transition: height 0.1s linear;
+}
+
+/* Radar Pulse for Timeline Dots */
+.timeline-dot-active {
+  animation: radar-pulse 2s infinite;
+}
+
+@keyframes radar-pulse {
+  0% {
+    box-shadow: 0 0 0 0px rgba(234, 179, 8, 0.4);
+  }
+  100% {
+    box-shadow: 0 0 0 20px rgba(234, 179, 8, 0);
+  }
+}
+
+/* Add a subtle vignette to the whole page */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle, transparent 30%, rgba(0, 0, 0, 0.8) 100%);
+  pointer-events: none;
+  z-index: 100;
 }
 
 @keyframes fadeIn {

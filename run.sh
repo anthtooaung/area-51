@@ -1,1 +1,1 @@
-npx @tailwindcss/cli -i ./project/css/input.css -o ./project/css/index.css --watch
+npx @tailwindcss/cli -i ./project/css/area51-input.css -o ./project/css/area51-index.css --watch

@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>CLASSIFIED · Review Vault</title>
+    <!-- Google Fonts & simple reset -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Special+Elite&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: radial-gradient(circle at 20% 30%, #1a2a2f, #0c171c);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'IBM Plex Mono', 'Courier New', monospace;
+            padding: 2rem;
+        }
+
+        /* MAIN WRAPPER — hover zone (card + declassified panel) */
+        .review-vault {
+            max-width: 460px;
+            width: 100%;
+            position: relative;
+            cursor: default;
+        }
+
+        /* ----- PRIMARY CARD (the “box” from the brief) ----- */
+        .primary-card {
+            background: #0f2126;
+            backdrop-filter: blur(2px);
+            border: 1px solid rgba(90, 150, 140, 0.6);
+            border-radius: 1.5rem;
+            padding: 1.6rem 1.8rem;
+            box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 240, 0.05);
+            transition: all 0.2s ease;
+            color: #e2f0ef;
+        }
+
+        /* subtle hover effect on the main card (enhances interactivity) */
+        .review-vault:hover .primary-card {
+            border-color: #c7a84b;
+            box-shadow: 0 25px 40px -12px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(199, 168, 75, 0.3);
+            background: #0e2a2c;
+        }
+
+        /* review header */
+        .review-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            border-bottom: 2px dashed #5e7c78;
+            padding-bottom: 0.75rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .review-header h2 {
+            font-family: 'Special Elite', monospace;
+            font-size: 1.9rem;
+            font-weight: 500;
+            letter-spacing: 2px;
+            background: linear-gradient(135deg, #f5e7c8, #cfb27c);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .review-icon {
+            font-size: 2rem;
+            filter: drop-shadow(0 2px 4px #00000055);
+        }
+
+        /* info rows */
+        .info-row {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+            border-left: 3px solid #4c7972;
+            padding-left: 0.85rem;
+        }
+
+        .info-label {
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.75rem;
+            color: #9bc0bb;
+        }
+
+        .info-value {
+            font-family: monospace;
+            font-weight: 500;
+            background: #00000030;
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        .changes-badge {
+            background: #9e3c2b;
+            color: #ffd9c5;
+            border-radius: 30px;
+            padding: 0.2rem 0.75rem;
+            font-weight: 600;
+        }
+
+        .ci-ref {
+            font-family: monospace;
+            letter-spacing: 1px;
+        }
+
+        /* small classified strip */
+        .confidential-tag {
+            display: inline-block;
+            font-size: 0.65rem;
+            background: #671e1e;
+            color: #f3bf8a;
+            padding: 0.2rem 0.6rem;
+            border-radius: 12px;
+            margin-top: 0.8rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        /* ----- DECLASSIFIED INFO PANEL (hidden by default, appears on hover) ----- */
+        .declassified-panel {
+            display: none;
+            margin-top: 1.2rem;
+            background: #fcf7e8;
+            background-image: repeating-linear-gradient(45deg, rgba(180, 150, 100, 0.08) 0px, rgba(180, 150, 100, 0.08) 2px, transparent 2px, transparent 8px);
+            border-left: 6px solid #b5651e;
+            border-right: 1px solid #c2a15b;
+            border-bottom: 2px solid #aa8342;
+            border-radius: 1rem;
+            padding: 1.4rem 1.6rem;
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.5), inset 0 1px 0 #fff9e6;
+            font-family: 'Special Elite', 'Courier New', monospace;
+            position: relative;
+            transition: all 0.15s linear;
+            color: #2d2b1f;
+        }
+
+        /* vintage paper texture */
+        .declassified-panel::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" opacity="0.08"><path fill="none" d="M10 10 L190 10 M10 30 L190 30 M10 50 L190 50 M10 70 L190 70 M10 90 L190 90 M10 110 L190 110 M10 130 L190 130 M10 150 L190 150 M10 170 L190 170 M10 190 L190 190" stroke="%23806040" stroke-width="1.2"/></svg>') repeat;
+            pointer-events: none;
+            border-radius: 1rem;
+        }
+
+        /* stamps / redaction style */
+        .declassified-panel h3 {
+            font-family: 'Special Elite', monospace;
+            font-size: 1.35rem;
+            letter-spacing: 2px;
+            border-bottom: 2px dotted #a5581a;
+            display: inline-block;
+            margin-bottom: 1rem;
+            font-weight: bold;
+            color: #482a10;
+        }
+
+        .redacted-block {
+            background: #1a1a1a;
+            color: #1a1a1a;
+            padding: 0.1rem 0.4rem;
+            border-radius: 8px;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+            text-decoration: none;
+            user-select: none;
+            margin: 0 2px;
+            display: inline-block;
+            font-family: monospace;
+            font-size: 0.85rem;
+        }
+
+        .redacted-block::before {
+            content: "██████";
+            letter-spacing: 1px;
+            color: #2f2f2f;
+        }
+
+        /* specific redacted text variations */
+        .redacted-short::before {
+            content: "███";
+        }
+
+        .redacted-long::before {
+            content: "██████████";
+        }
+
+        .stamp {
+            position: absolute;
+            top: 12px;
+            right: 18px;
+            transform: rotate(12deg);
+            background: #bc3f2e;
+            color: #ffefcf;
+            padding: 0.2rem 0.8rem;
+            font-size: 0.8rem;
+            font-weight: bold;
+            font-family: monospace;
+            border-radius: 2px;
+            box-shadow: inset 0 0 0 1px #ffcc88, 2px 2px 5px rgba(0, 0, 0, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .stamp-declass {
+            background: #2a6b3c;
+            top: auto;
+            bottom: 12px;
+            right: 20px;
+            transform: rotate(-5deg);
+            font-size: 0.7rem;
+        }
+
+        .declass-detail-item {
+            margin: 0.85rem 0;
+            font-size: 0.85rem;
+            line-height: 1.4;
+            border-left: 2px solid #b78a4b;
+            padding-left: 0.8rem;
+        }
+
+        .declass-detail-item strong {
+            color: #6f3f12;
+            font-weight: 700;
+            font-family: monospace;
+        }
+
+        .redacted-line {
+            background: #2d2b1f;
+            color: transparent;
+            padding: 0.1rem 0.3rem;
+            border-radius: 10px;
+            display: inline-block;
+            font-weight: bold;
+            background: repeating-linear-gradient(45deg, #000, #000 8px, #3e3a2a 8px, #3e3a2a 16px);
+        }
+
+        .signature {
+            margin-top: 1rem;
+            font-size: 0.7rem;
+            text-align: right;
+            border-top: 1px dashed #c2a15b;
+            padding-top: 0.8rem;
+            font-family: monospace;
+        }
+
+        /* show declassified panel on wrapper hover */
+        .review-vault:hover .declassified-panel {
+            display: block;
+            animation: fadeUp 0.25s ease-out;
+        }
+
+        @keyframes fadeUp {
+            0% {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* responsive touches */
+        @media (max-width: 500px) {
+            .review-vault {
+                max-width: 94%;
+            }
+
+            .primary-card {
+                padding: 1.2rem;
+            }
+
+            .review-header h2 {
+                font-size: 1.5rem;
+            }
+
+            .declassified-panel {
+                padding: 1.2rem;
+            }
+        }
+
+        /* little decorative elements */
+        .micro-redact {
+            background: #2c2b23;
+            color: #2c2b23;
+            border-radius: 4px;
+            padding: 0 0.2rem;
+        }
+
+        .warning-icon {
+            font-size: 1rem;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="review-vault">
+        <!-- MAIN CARD (exactly as described: Review Code, Changes Requested, Checks Passed) -->
+        <div class="primary-card">
+            <div class="review-header">
+                <span class="review-icon">📄🔎</span>
+                <h2>REVIEW CODE</h2>
+            </div>
+
+            <div class="info-row">
+                <span class="info-label">📌 CHANGES REQUESTED</span>
+                <span class="info-value changes-badge">⚠️ 2 comments unresolved</span>
+            </div>
+
+            <div class="info-row">
+                <span class="info-label">✅ CHECKS PASSED</span>
+                <span class="info-value ci-ref">CI Reference #9082</span>
+            </div>
+
+            <div class="confidential-tag">
+                ⚡ CONFIDENTIAL // EYES ONLY
+            </div>
+        </div>
+
+        <!-- DECLASSIFIED INFO PANEL (appears on hover, styled as declassified document) -->
+        <div class="declassified-panel">
+            <!-- TOP SECRET stamp -->
+            <div class="stamp">TOP SECRET</div>
+
+            <h3>📜 DECLASSIFIED DOSSIER</h3>
+            <p style="font-size:0.7rem; margin-bottom: 10px; font-family: monospace;">AUTHORIZED RELEASE · FREEDOM OF
+                INFO ACT</p>
+
+            <!-- redacted / declassified details -->
+            <div class="declass-detail-item">
+                <strong>► OPERATION CODENAME:</strong> <span class="redacted-block"></span> <span
+                    style="font-family: monospace;">[ NIGHTWATCH / CLEARED ]</span>
+            </div>
+
+            <div class="declass-detail-item">
+                <strong>► REVIEW AUTHORITY:</strong> AGENT <span class="redacted-short redacted-block"></span> ·
+                Clearance: OMEGA-4 <span style="color:#4b3a1e;">(declassified per exec order)</span>
+            </div>
+
+            <div class="declass-detail-item">
+                <strong>🔻 CHANGE REQUESTS (2 items):</strong><br>
+                <span style="display:inline-block; margin-top: 5px;">➤ #CR-01: <span
+                        class="redacted-line">authentication flow vulnerability patch</span> → <span
+                        style="color:#27633b;">✔ DECLASSIFIED: OAuth2 hardening, severity HIGH</span><br>
+                    ➤ #CR-02: <span class="redacted-line">dependency injection update (classified)</span> → <span
+                        style="color:#27633b;">✔ DECLASSIFIED: critical CVE mitigation</span></span>
+            </div>
+
+            <div class="declass-detail-item">
+                <strong>🖥️ CI REFERENCE #9082 — DECRYPTED:</strong> Build pipeline: <strong>‘IRON_GATE’</strong> ·
+                status: ✅ SUCCESSFUL<br>
+                Artifact: <span class="micro-redact">secure_release_v.2.3.1</span> · Code coverage: 94.7% · Pen-test:
+                <span style="background:#e7cfac;">GRANTED</span>
+            </div>
+
+            <div class="declass-detail-item">
+                <strong>📡 ADDITIONAL INTEL (REDACTED / RELEASED):</strong><br>
+                • Reviewer remarks: <span class="redacted-long redacted-block"></span> “architecture aligns with
+                security framework Z-9B”<br>
+                • Milestone: Q2 deployment — <span class="redacted-block"></span> [declassification approved 2025-03-31]
+            </div>
+
+            <div class="declass-detail-item">
+                <strong>🗂️ ORIGINAL CLASSIFICATION:</strong> TOP SECRET / HCS-P/SI/TK → DECLASSIFIED under authority
+                DIR-INT-2025-09<br>
+                <span style="font-size:0.7rem;">*redaction summary: 2 sensitive code comments remain partially masked
+                    per national security guidelines</span>
+            </div>
+
+            <!-- second stamp (declassified) -->
+            <div class="stamp stamp-declass">DECLASSIFIED</div>
+
+            <div class="signature">
+                ⚡ SIGINT RELEASE AUTHORITY: N.S.A. ARCHIVES (SIM) &nbsp;|&nbsp; REF: FOIA-CASE-9082<br>
+                <span style="font-family: monospace;">“EYES ONLY — NOW PUBLIC DOMAIN”</span>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

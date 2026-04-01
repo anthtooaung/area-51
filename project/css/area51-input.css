@@ -1,8 +1,40 @@
-@import "tailwindcss";@import "animate.css";
+@import "tailwindcss";
+@import "animate.css";
 
 body {
   @apply m-0 p-0 box-border bg-neutral-950 font-mono tracking-wide;
 }
+
+/* 3. Top Secret Stamp Watermark */
+.top-secret-watermark {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-30deg);
+  font-size: 15vw;
+  color: rgba(255, 0, 0, 0.03); /* Extremely faint red */
+  font-weight: 900;
+  border: 10px solid rgba(255, 0, 0, 0.03);
+  padding: 20px;
+  pointer-events: none;
+  z-index: 0;
+  user-select: none;
+  text-transform: uppercase;
+}
+
+/* 4. Enhanced Redacted Text */
+.redacted {
+  position: relative;
+  background-color: #000;
+  color: transparent !important;
+  transition: all 0.5s ease;
+}
+.redacted:hover {
+  background-color: transparent;
+  color: #eab308 !important;
+  text-shadow: 0 0 8px #eab308;
+}
+
 body::after {
   content: "";
   position: fixed;
@@ -240,22 +272,6 @@ body::after {
   opacity: 0;
   animation: fadeIn 1s ease forwards;
   animation-delay: 1.5s;
-}
-
-/* Mysterious Redacted Text */
-.redacted {
-  background-color: #171717;
-  color: #171717;
-  cursor: help;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  padding: 0 4px;
-  font-weight: bold;
-  border-radius: 2px;
-}
-
-.redacted:hover {
-  background-color: #eab308;
-  color: #000;
 }
 
 /* Timeline Progress Line */

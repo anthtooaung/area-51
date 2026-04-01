@@ -4,19 +4,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../css/area51-index.css">
     <title>Evidence Board | Top Secret</title>
+    <!-- Ensure Tailwind is loaded -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../css/evidence-board-index.css">
 </head>
 
-<body class="bg-neutral-950 text-neutral-300 font-mono overflow-hidden">
+<body class="bg-neutral-950 text-neutral-300 font-mono overflow-hidden select-none">
     <div class="fixed inset-0 pointer-events-none z-50 overflow-hidden">
         <div class="noise"></div>
     </div>
 
     <main class="h-screen w-screen p-8 relative flex flex-col">
-        <header class="border-b border-red-900/50 pb-4 mb-8 flex justify-between items-end">
+        <header
+            class="border-b border-red-900/50 pb-4 mb-8 flex justify-between items-end z-10 relative pointer-events-none">
             <div>
-                <h1 class="text-3xl font-black tracking-tighter text-red-600 glitch-text" data-text="EVIDENCE BOARD">
+                <h1 class="text-3xl font-black tracking-tighter text-red-600 glitch-text typewriter-animation"
+                    data-text="EVIDENCE BOARD">
                     EVIDENCE BOARD</h1>
                 <p class="text-xs uppercase tracking-widest text-neutral-500">Classification: Top Secret //
                     Compartmentalized</p>
@@ -27,40 +31,152 @@
             </div>
         </header>
 
-        <div
-            class="flex-1 relative border-2 border-neutral-900 bg-neutral-900/30 paper-texture p-4 overflow-auto rounded-sm">
-            <!-- Evidence items would go here -->
-            <div class="absolute inset-0 flex items-center justify-center">
-                <div class="text-center opacity-20">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
-                        class="mx-auto mb-4">
-                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10" />
-                    </svg>
-                    <p class="text-xl uppercase tracking-[0.5em]">No Data Decrypted</p>
-                </div>
+        <div class="flex-1 relative board-container overflow-hidden" id="board">
+            <!-- String Canvas Overlay -->
+            <canvas id="string-canvas"></canvas>
+
+            <!-- 1. UFO Sighting (Polaroid) -->
+            <div class="evidence-item polaroid" style="top: 10%; left: 8%; transform: rotate(-5deg);" id="item-1"
+                data-connects="item-4,item-12">
+                <div class="pin"></div>
+                <img src="../images/ufo-sighting.avif" alt="UFO">
+                <p class="text-black text-[10px] mt-2 font-bold uppercase">Incident #732 - UFO Sighting</p>
+                <p class="text-gray-600 text-[9px]">Mistaken Black Projects?</p>
+            </div>
+
+            <!-- 2. Area 51 Overview (Memo) -->
+            <div class="evidence-item secret-memo" style="top: 35%; left: 35%; transform: rotate(2deg);" id="item-2"
+                data-connects="item-3,item-5,item-7,item-9">
+                <div class="pin"></div>
+                <p class="border-b border-black mb-2 font-bold text-red-700">MEMO: GROOM LAKE FACILITY</p>
+                <p>Birthplace of SR-71 Blackbird. Subject confirmed <span class="bg-black text-black">REDACTED</span>
+                    presence.<br><br><b>NON-HUMAN BIOLOGICS</b> stored at 40°F in Level 4. True nature remains
+                    classified.</p>
+            </div>
+
+            <!-- 3. Area 51 Map (Polaroid) -->
+            <div class="evidence-item polaroid" style="top: 8%; left: 55%; transform: rotate(-3deg);" id="item-3"
+                data-connects="item-10,item-6">
+                <div class="pin"></div>
+                <img src="../images/area51-map.png" alt="Map">
+                <p class="text-black text-[10px] mt-2 font-bold uppercase">Restricted Sector R-4808N</p>
+            </div>
+
+            <!-- 4. Classified Tech (Polaroid) -->
+            <div class="evidence-item polaroid" style="top: 75%; left: 12%; transform: rotate(8deg);" id="item-4"
+                data-connects="item-2,item-8">
+                <div class="pin"></div>
+                <img src="../images/classfied-tech.png" alt="Tech">
+                <p class="text-black text-[10px] mt-2 font-bold uppercase">Experimental Propulsion</p>
+            </div>
+
+            <!-- 5. Key Data Stats (Memo) -->
+            <div class="evidence-item secret-memo" style="top: 12%; left: 30%; transform: rotate(-6deg);" id="item-5"
+                data-connects="item-2">
+                <div class="pin"></div>
+                <p class="border-b border-black mb-2 font-bold">STRUCTURED DATA ARCHIVE</p>
+                <p class="text-[10px] leading-tight">
+                    <b>LOC:</b> Nevada, USA (Salt Flat)<br>
+                    <b>TYPE:</b> Military Test Site<br>
+                    <b>OPERATOR:</b> U.S. Air Force<br>
+                    <b>EST:</b> 1955<br>
+                    <b>STATUS:</b> <span class="text-red-600 font-bold">ACTIVE</span>
+                </p>
+            </div>
+
+            <!-- 6. S-4 Disclosure / Lazar (Newspaper) -->
+            <div class="evidence-item newspaper-clipping" style="top: 60%; left: 45%; transform: rotate(-4deg);"
+                id="item-6" data-connects="item-8,item-11">
+                <div class="pin"></div>
+                <h4>S-4 DISCLOSURE</h4>
+                <p class="text-xs">
+                    <b>Nov 1989:</b> Bob Lazar claims existence of 9 alien craft hidden in mountainside hangars.
+                    Describes reverse engineering and propulsion systems utilizing <i>Element 115</i>. Extraterrestrial
+                    spacecraft recovered?
+                </p>
+            </div>
+
+            <!-- 7. Desert Base Surveillance (Polaroid) -->
+            <div class="evidence-item polaroid" style="top: 35%; left: 70%; transform: rotate(6deg);" id="item-7"
+                data-connects="item-3,item-10">
+                <div class="pin"></div>
+                <img src="../images/desertBase.jpg" alt="Desert Base Surveillance">
+                <p class="text-black text-[10px] mt-2 font-bold uppercase">"Cammo Dudes" Perimeter</p>
+            </div>
+
+            <!-- 8. UAP Hearings 2023 (Newspaper) -->
+            <div class="evidence-item newspaper-clipping" style="top: 75%; left: 68%; transform: rotate(3deg);"
+                id="item-8" data-connects="item-2">
+                <div class="pin"></div>
+                <h4>UAP HEARINGS 2023</h4>
+                <p class="text-xs">
+                    Congressional whistleblowers testify about <span class="bg-gray-300 font-bold px-1">REVERSE
+                        ENGINEERING</span> programs operating outside of government oversight.
+                </p>
+            </div>
+
+            <!-- 9. Project Aquatone / Timeline (Sticky Note) -->
+            <div class="evidence-item sticky-note" style="top: 50%; left: 18%; transform: rotate(-8deg);" id="item-9"
+                data-connects="item-4">
+                <div class="pin"></div>
+                <p class="font-bold border-b border-yellow-600 mb-1">Timeline Anomalies</p>
+                <p><b>1955:</b> Proj AQUATONE (U-2 Spyplane)<br><b>1962:</b> Proj OXCART (A-12 testing).</p>
+                <p class="text-red-600 mt-1">Radar ghosts at MACH 3.2?!</p>
+            </div>
+
+            <!-- 10. Satellite View (Polaroid) -->
+            <div class="evidence-item polaroid" style="top: 15%; left: 80%; transform: rotate(-2deg);" id="item-10"
+                data-connects="item-3">
+                <div class="pin"></div>
+                <img src="../images/satellite-view.avif" alt="Satellite View">
+                <p class="text-black text-[10px] mt-2 font-bold uppercase">Groom Lake Mapping</p>
+            </div>
+
+            <!-- 11. Deep Space Transmission (Polaroid) -->
+            <div class="evidence-item polaroid" style="top: 65%; left: 28%; transform: rotate(-5deg);" id="item-11"
+                data-connects="item-6,item-4">
+                <div class="pin"></div>
+                <img src="../images/deep-space.avif" alt="Deep Space">
+                <p class="text-black text-[10px] mt-2 font-bold uppercase text-red-600">UNAUTHORIZED TRANSMISSION</p>
+            </div>
+
+            <!-- 12. Government Secrecy Warning (Sticky Note) -->
+            <div class="evidence-item sticky-note" style="top: 55%; left: 82%; transform: rotate(5deg);" id="item-12"
+                data-connects="item-7,item-2">
+                <div class="pin"></div>
+                <p class="font-bold text-red-700 uppercase">WARNING</p>
+                <p>Protected by high-powered cameras, motion sensors, and unmarked white vehicles.</p>
+                <p class="font-bold underline mt-1">DEADLY FORCE AUTHORIZED.</p>
             </div>
         </div>
 
-        <footer class="mt-8 flex justify-between items-center text-[10px] uppercase tracking-widest text-neutral-600">
-            <div>Property of United States Intelligence Agency</div>
-            <div class="flex gap-4">
+        <footer
+            class="mt-8 flex justify-between items-center text-[10px] uppercase tracking-widest text-neutral-600 relative z-10 pointer-events-none">
+            <div class="pointer-events-auto">Property of United States Intelligence Agency</div>
+            <div class="flex gap-4 pointer-events-auto">
                 <a href="index.html" class="hover:text-yellow-500 transition-colors">Return to Archive</a>
                 <span>Terminal 04</span>
             </div>
         </footer>
     </main>
 
+    <!-- FULLSCREEN MODAL OVERLAY -->
+    <div id="evidence-modal"
+        class="fixed inset-0 z-[100] bg-neutral-950/90 backdrop-blur-md hidden transition-all duration-300 opacity-0 modal-overlay">
+        <button id="close-modal"
+            class="absolute top-8 right-8 text-neutral-400 hover:text-white text-5xl cursor-pointer transition-transform hover:scale-110 z-50">&times;</button>
 
-    <script>
-        const setupGlitch = () => {
-            const title = document.querySelector('.typewriter-animation');
-            if (title) {
-                title.classList.add('glitch-text');
-                title.setAttribute('data-text', title.textContent.trim());
-            }
-        };
-    </script>
+        <!-- The cloned element goes in here -->
+        <div id="modal-content"
+            class="modal-clone transform scale-90 transition-transform duration-300 flex items-center justify-center w-full h-full relative">
+        </div>
+
+        <p
+            class="absolute bottom-8 left-1/2 -translate-x-1/2 text-neutral-500 tracking-[0.2em] uppercase text-xs animate-pulse">
+            Click anywhere to close file</p>
+    </div>
+
+    <script src="../js/evidence-board.js"></script>
 </body>
 
 </html>

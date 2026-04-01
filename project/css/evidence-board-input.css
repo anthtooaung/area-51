@@ -1,0 +1,169 @@
+@import "tailwindcss";:root {
+  --string-color: rgba(220, 38, 38, 0.6); /* Red String */
+}
+
+.board-container {
+  background:
+    radial-gradient(
+        circle,
+        transparent 20%,
+        #0a0a0a 20%,
+        #0a0a0a 80%,
+        transparent 80%,
+        transparent
+      )
+      0% 0% / 64px 64px,
+    radial-gradient(
+        circle,
+        transparent 20%,
+        #0a0a0a 20%,
+        #0a0a0a 80%,
+        transparent 80%,
+        transparent
+      )
+      32px 32px / 64px 64px,
+    #0f0f0f;
+  background-size: 32px 32px;
+  position: relative;
+  cursor: grab;
+}
+
+/* Evidence Item Base */
+.evidence-item {
+  position: absolute;
+  cursor: move;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+  user-select: none;
+  z-index: 10;
+}
+.evidence-item:active {
+  cursor: grabbing;
+  z-index: 50;
+}
+.evidence-item:hover {
+  transform: scale(1.05) !important;
+  z-index: 40;
+}
+
+/* Polaroid Look */
+.polaroid {
+  background: #e2e2e2;
+  padding: 10px 10px 30px 10px;
+  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.5);
+  border: 1px solid #ccc;
+}
+.polaroid img {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  filter: sepia(0.3) contrast(1.2);
+}
+
+/* Redacted Note Look */
+.secret-memo {
+  background: #fdf6e3;
+  color: #1a1a1a;
+  padding: 15px;
+  width: 220px;
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.4);
+  font-family: "Courier New", Courier, monospace;
+  font-size: 12px;
+}
+
+/* Newspaper Clipping Look */
+.newspaper-clipping {
+  background: #e9e5d9;
+  color: #222;
+  padding: 15px;
+  width: 240px;
+  box-shadow: 3px 3px 12px rgba(0, 0, 0, 0.6);
+  font-family: "Times New Roman", Times, serif;
+  border-left: 3px solid #ccc;
+  border-right: 1px solid #ccc;
+}
+.newspaper-clipping h4 {
+  font-family: "Impact", sans-serif;
+  text-transform: uppercase;
+  font-size: 18px;
+  border-bottom: 2px solid #222;
+  margin-bottom: 5px;
+  padding-bottom: 2px;
+}
+
+/* Sticky Note Look */
+.sticky-note {
+  background: #fef08a;
+  color: #1a1a1a;
+  padding: 15px;
+  width: 180px;
+  box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.3);
+  font-family: "Comic Sans MS", cursive, sans-serif;
+  font-size: 13px;
+}
+
+/* Red Pin */
+.pin {
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 12px;
+  height: 12px;
+  background: radial-gradient(circle at 4px 4px, #ff4d4d, #800000);
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  z-index: 20;
+}
+
+#string-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* --- Fullscreen Modal Centering & Scaling Classes --- */
+.modal-overlay {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-clone .evidence-item {
+  position: relative !important;
+  left: auto !important;
+  top: auto !important;
+  transform: none !important;
+  cursor: default !important;
+  margin: 0 auto;
+}
+
+.modal-clone .polaroid img {
+  width: 400px;
+  height: 400px;
+}
+.modal-clone .polaroid {
+  padding: 20px 20px 60px 20px;
+  font-size: 1.5rem;
+}
+.modal-clone .secret-memo {
+  width: 500px;
+  font-size: 18px;
+  padding: 30px;
+}
+.modal-clone .newspaper-clipping {
+  width: 500px;
+  font-size: 20px;
+  padding: 30px;
+}
+.modal-clone .newspaper-clipping h4 {
+  font-size: 32px;
+}
+.modal-clone .sticky-note {
+  width: 400px;
+  font-size: 22px;
+  padding: 30px;
+}

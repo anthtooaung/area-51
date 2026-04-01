@@ -1,5 +1,4 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const board = document.getElementById("board");
+document.addEventListener("DOMContentLoaded", () => {  const board = document.getElementById("board");
   const canvas = document.getElementById("string-canvas");
   const ctx = canvas.getContext("2d");
   const items = document.querySelectorAll(".evidence-item");
@@ -72,7 +71,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Sound effects
   const playPaperSound = () => {
     const paperSound = new Audio(
-      "https://www.soundjay.com/buttons/sounds/button-20.mp3",
+      "../audio/numbthefeelings - before dawn (freetouse.com).mp3",
     );
     paperSound.volume = 0.1;
     paperSound.play().catch(() => {});

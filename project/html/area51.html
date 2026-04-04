@@ -13,14 +13,87 @@
 <body>
     <!-- Background Watermark -->
     <div class="top-secret-watermark">Top Secret</div>
+
+    <!-- loading page  -->
+    <div id="area51-loader">
+        <div class="loader-terminal">
+            <div class="loader-scanline"></div>
+
+            <div class="loader-header">
+                <span class="blink">●</span> SIGNAL ESTABLISHED: GROOM LAKE / SECTOR 4
+            </div>
+
+            <div class="loader-content">
+                <p id="loader-log">INITIALIZING BRUTE FORCE DECRYPTION...</p>
+                <div class="loader-progress-container">
+                    <div class="loader-progress-bar" id="loader-bar"></div>
+                </div>
+                <div class="loader-status">
+                    <span class="decrypting-text">DECRYPTING ARCHIVE</span>
+                    <span id="loader-percent">0%</span>
+                </div>
+            </div>
+
+            <div class="loader-footer">
+                SECURITY LEVEL: <span class="text-yellow-500">MAJESTIC-12</span><br>
+                UNAUTHORIZED ACCESS IS PUNISHABLE BY DEADLY FORCE
+            </div>
+        </div>
+    </div>
+
     <!-- navigation header -->
-    <header></header>
+    <header id="main-nav"
+        class="fixed z-40 w-full top-0 bg-neutral-950/80 backdrop-blur-md border-b border-yellow-500/20 duration-1000">
+        <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between font-mono">
+            <!-- Left: Branding -->
+            <div class="flex items-center gap-3">
+                <div class="relative">
+                    <div class="w-2 h-2 bg-yellow-500 rounded-full animate-pulse"></div>
+                    <div class="absolute inset-0 w-2 h-2 bg-yellow-500 rounded-full animate-ping opacity-20"></div>
+                </div>
+                <a href="#titleSection" class="text-neutral-100 font-black tracking-tighter text-xl group">
+                    SITE-<span class="text-yellow-500 group-hover:text-yellow-400 transition-colors">51</span>
+                </a>
+            </div>
+
+            <!-- Center: Nav Links -->
+            <nav class="hidden md:flex items-center gap-8">
+                <a href="#" class="nav-item">MYSTERY</a>
+                <a href="./evidenceBoard.html" class="nav-item">Evidence-Board</a>
+
+                <!-- Sound Toggle Button -->
+                <button id="sound-toggle"
+                    class="flex items-center gap-3 group px-4 py-1.5 border border-neutral-800 hover:border-yellow-500/40 transition-all rounded-sm bg-neutral-900/50">
+                    <span id="sound-text"
+                        class="text-[10px] uppercase tracking-[0.2em] text-neutral-500 group-hover:text-neutral-300 transition-colors">Audio:
+                        OFF</span>
+                    <div
+                        class="relative w-7 h-3.5 bg-neutral-800 rounded-full border border-neutral-700 pointer-events-none">
+                        <div id="toggle-knob"
+                            class="absolute top-0.5 left-0.5 w-2 h-2 bg-neutral-600 rounded-full transition-all duration-300">
+                        </div>
+                    </div>
+                </button>
+            </nav>
+
+            <!-- Right: Status -->
+            <div class="hidden sm:flex flex-col items-end text-[9px] tracking-[0.2em] text-neutral-500 uppercase">
+                <div>Connection: <span class="text-green-500/70">Secure</span></div>
+                <div>Auth: <span class="text-yellow-500/70">M-12</span></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Ensure these paths are correct relative to your HTML file location -->
+    <audio id="bgMusic" src="../audio/numbthefeelings - before dawn (freetouse.com).mp3" preload="auto" loop></audio>
+    <audio id="hoverSoundSrc" src="../audio/mixkit-game-user-interface-tone-2570.wav" preload="auto"></audio>
 
     <main>
         <div class="mt-20"></div>
 
         <!-- title/header section -->
-        <section class="max-w-full  bg-gradient-to-b from-neutral-950 via-neutral-900 to-neutral-900 ">
+        <section id="titleSection"
+            class="max-w-full  bg-gradient-to-b from-neutral-950 via-neutral-900 to-neutral-900 ">
             <div class=" relative p-5 uppercase mx-auto max-w-5xl border-b-2 border-neutral-600">
                 <!-- left text -->
                 <div class=" flex flex-col max-w-3xl items-start justify-between flex-wrap">
@@ -107,8 +180,9 @@
                             <pre class="char">:</pre>
                             <pre class="char"> </pre>
                         </div>
-                        <div class="cursor typewriter-animation">
-                            <span class="text-yellow-500">DECLASSIFIED</span> ARCHIVE
+                        <div class="typewriter-container">
+                            <span class="text-yellow-500 typewriter-target"></span><span
+                                class="blinking-cursor">|</span>
                         </div>
                     </div>
                     <!-- under information -->
@@ -265,7 +339,8 @@
         </section>
 
         <!-- overview/summary section -->
-        <section class="py-24 px-4 max-w-full bg-gradient-to-b from-neutral-900 via-neutral-800 to-neutral-800 reveal">
+        <section id="overviewSection"
+            class="py-24 px-4 max-w-full bg-gradient-to-b from-neutral-900 via-neutral-800 to-neutral-800 reveal">
             <div class="max-w-4xl mx-auto">
                 <div
                     class="bg-neutral-900 p-12 md:p-20 shadow-2xl border border-yellow-500/20 relative paper-texture animate__animated animate__fadeInUp">
@@ -276,15 +351,17 @@
                         <h2 class="text-xs text-neutral-300 mb-2 tracking-[0.3em] ">Subject Overview</h2>
                         <h3 class="text-2xl font-bold text-neutral-100">GROOM LAKE FACILITY (AREA 51)</h3>
                     </div>
-                    <div class="space-y-6 text-lg leading-relaxed font-sans text-neutral-300">
-                        <p>Area 51 is a highly classified United States Air Force facility located within the Nevada
+                    <div class="space-y-6 text-lg leading-relaxed font-sans text-left text-neutral-300">
+                        <p>&emsp; Area 51 is a highly classified United States Air Force facility located within the
+                            Nevada
                             Test
                             and
                             Training Range. The facility is officially called Homey Airport or Groom Lake, named after
                             the
                             salt flat
                             situated next to its airfield.</p>
-                        <p>For decades, the site was shrouded in complete mystery, fueling countless conspiracy theories
+                        <p>&emsp; For decades, the site was shrouded in complete mystery, fueling countless conspiracy
+                            theories
                             about
                             extraterrestrial life and advanced government technology. While officially a testing ground
                             for
@@ -293,12 +370,14 @@
                             guarded
                             fences remains a subject of global fascination.
                         </p>
-                        <p>The facility was acquired by the <span class="redacted">CIA OPERATIVE [REDACTED]</span> in
+                        <p>&emsp; The facility was acquired by the <span class="redacted">CIA OPERATIVE
+                                [REDACTED]</span> in
                             1955. Since then, it has
                             been the birthplace of the <span class="markInfo">SR-71 Blackbird</span>. Reports of <span
                                 class="redacted">NON-HUMAN BIOLOGICS</span> being stored in Level 4 remain unconfirmed.
                         </p>
-                        <p>Current operations at the site are <span class="markInfo">classified</span> and protected by
+                        <p>&emsp; Current operations at the site are <span class="markInfo">classified</span> and
+                            protected by
                             <span class="markInfo">deadly force</span>. The perimeter is marked with orange posts and
                             signs
                             warning
@@ -330,7 +409,7 @@
         </section>
 
         <!-- key data section -->
-        <section class="bg-gradient-to-b from-neutral-800 via-neutral-700 to-neutral-700 reveal">
+        <section id="keySection" class="bg-gradient-to-b from-neutral-800 via-neutral-700 to-neutral-700 reveal">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 py-24 ">
                 <!-- key data header path -->
                 <div class="text-center mb-14">
@@ -494,8 +573,8 @@
         </section>
 
         <!-- Timeline Section -->
-        <section
-            class="py-24 bg-gradient-to-b from-neutral-700 via-neutral-800 to-neutral-800 relative overflow-hidden">
+        <section id="timelineSection"
+            class=" py-24 bg-gradient-to-b from-neutral-700 via-neutral-800 to-neutral-800 relative overflow-hidden">
             <div class="max-w-4xl mx-auto px-4">
                 <div class="text-center mb-20">
                     <h2 class="text-3xl font-black tracking-[0.5em] text-neutral-500 uppercase">Chronological <span
@@ -763,7 +842,19 @@
         </section>
 
         <!-- photo section -->
-        <section class=" bg-gradient-to-b from-neutral-900 via-neutral-950 to-neutral-950 reveal">
+        <section id="phptoSection"
+            class=" bg-gradient-to-b from-neutral-900 via-neutral-950 to-neutral-950 reveal py-24">
+            <!-- ADDED: Photo Section Title -->
+            <div class="text-center pt-24 mb-4">
+                <div
+                    class="inline-flex items-center gap-2 px-4 py-1 bg-neutral-900 border border-yellow-500/20 shadow-2xl mb-4">
+                    <div class="w-2 h-2 bg-yellow-500/50 rounded-full animate-pulse"></div>
+                    <span class="text-[10px] text-neutral-300 tracking-widest uppercase">Visual Intelligence Log</span>
+                </div>
+                <h2 class="text-4xl md:text-5xl font-bold text-neutral-400 mb-4">
+                    CLASSIFIED <span class="text-yellow-500">IMAGERY</span>
+                </h2>
+            </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto px-2 py-24">
                 <!-- photo 1 -->
                 <div class="evidence-photo paper-texture group relative cursor-pointer"
@@ -911,9 +1002,6 @@
         </section>
 
     </main>
-    <!-- footer  -->
-    <footer></footer>
-
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="../js/area51.js"></script>

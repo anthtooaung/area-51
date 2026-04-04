@@ -1,40 +1,21 @@
 @import "tailwindcss";
 @import "animate.css";
-
+html {
+  @apply scroll-smooth;
+}
 body {
   @apply m-0 p-0 box-border bg-neutral-950 font-mono tracking-wide;
 }
 
-/* 3. Top Secret Stamp Watermark */
-.top-secret-watermark {
+/* Add a subtle vignette to the whole page */
+body::before {
+  content: "";
   position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) rotate(-30deg);
-  font-size: 15vw;
-  color: rgba(255, 0, 0, 0.03); /* Extremely faint red */
-  font-weight: 900;
-  border: 10px solid rgba(255, 0, 0, 0.03);
-  padding: 20px;
+  inset: 0;
+  background: radial-gradient(circle, transparent 30%, rgba(0, 0, 0, 0.8) 100%);
   pointer-events: none;
-  z-index: 0;
-  user-select: none;
-  text-transform: uppercase;
+  z-index: 100;
 }
-
-/* 4. Enhanced Redacted Text */
-.redacted {
-  position: relative;
-  background-color: #000;
-  color: transparent !important;
-  transition: all 0.5s ease;
-}
-.redacted:hover {
-  background-color: transparent;
-  color: #eab308 !important;
-  text-shadow: 0 0 8px #eab308;
-}
-
 body::after {
   content: "";
   position: fixed;
@@ -47,12 +28,82 @@ body::after {
   );
   pointer-events: none;
 }
+
+/* 1. The characters start invisible and scattered */
 .char {
   display: inline-block;
   opacity: 0;
   transform: translate(var(--x), var(--y)) rotate(var(--r)) scale(0.6);
+}
+
+/* 2. ONLY animate when the parent has the .start-anim class */
+.start-anim .char {
   animation: assemble 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
   animation-delay: var(--delay);
+}
+
+/* navigation info  */
+/* Navigation Styling */
+.nav-item {
+  @apply relative text-[11px] font-serif font-bold uppercase tracking-[0.3em] text-neutral-400 
+    hover:text-yellow-500 transition-all duration-300 py-2;
+}
+
+/* Bracket effect on hover [Link] */
+.nav-item::before,
+.nav-item::after {
+  content: "";
+  @apply absolute opacity-0 transition-all duration-300 text-yellow-500;
+}
+
+.nav-item::before {
+  content: "[";
+  @apply -left-4;
+}
+
+.nav-item::after {
+  content: "]";
+  @apply -right-4;
+}
+
+.nav-item:hover::before {
+  @apply opacity-100 -left-3;
+}
+
+.nav-item:hover::after {
+  @apply opacity-100 -right-3;
+}
+
+/* --- Add this to your CSS file --- */
+
+#main-nav {
+  transition:
+    transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.5s ease;
+}
+
+header.nav-hidden {
+  @apply -translate-y-full;
+}
+
+/* Typewriter Cursor */
+.blinking-cursor {
+  color: #eab308; /* Yellow-500 */
+  font-weight: bold;
+  animation: blink 0.8s step-end infinite;
+}
+
+/* Sound Toggle Switch CSS */
+#sound-toggle.is-on #toggle-knob {
+  @apply left-4 bg-yellow-500 shadow-[0_0_10px_rgba(234,179,8,0.8)];
+}
+
+#sound-toggle.is-on #sound-text {
+  @apply text-yellow-500;
+}
+
+#sound-toggle.is-on {
+  @apply border-yellow-500/30 bg-yellow-500/5;
 }
 
 /* For the Summary section css */
@@ -183,6 +234,12 @@ body::after {
   @apply absolute top-1 left-1/2 -translate-x-1/2 w-4 h-4 bg-yellow-500/20 rounded-full z-20 shadow-sm;
 }
 
+/* container */
+.evidence-photo {
+  @apply relative overflow-hidden bg-neutral-900 border border-neutral-700 p-3
+  hover:border-yellow-500/40 transition-all duration-300;
+}
+
 /* film grain texture */
 .evidence-photo::before {
   content: "";
@@ -211,17 +268,10 @@ body::after {
 
   pointer-events: none;
 }
-
 /* hover becomes color */
 .evidence-photo:hover .photo {
   filter: grayscale(0%);
   transform: scale(1.08);
-}
-
-/* container */
-.evidence-photo {
-  @apply relative overflow-hidden bg-neutral-900 border border-neutral-700 p-3
-  hover:border-yellow-500/40 transition-all duration-300;
 }
 .photoTextBox {
   @apply mt-4 border-t border-neutral-300 pt-2 flex justify-between items-end;
@@ -233,10 +283,6 @@ body::after {
   @apply text-sm font-semibold text-neutral-200 tracking-wide;
 }
 
-.evidence-photo {
-  @apply relative bg-neutral-900 border border-neutral-700 p-3 
-  hover:border-yellow-500/40 transition-all duration-300;
-}
 .evidence-photo:hover {
   transform: scale(1.03) rotate(0deg);
   box-shadow: 0 10px 30px rgba(234, 179, 8, 0.2); /* yellow glow */
@@ -245,27 +291,24 @@ body::after {
 .reveal {
   opacity: 0;
   transform: translateY(50px);
-  transition: all 1s ease-in-out;
+  transition: all 0.7s ease-in-out;
 }
 
 .reveal.active {
   opacity: 1;
   transform: translateY(0);
 }
-/* Cursor */
-.cursor {
-  position: relative;
-  margin: 0 auto;
-  border-right: 5px solid var(--color-neutral-600);
-  text-align: left;
-  white-space: nowrap;
-  overflow: hidden;
-}
 /* Animation */
 .typewriter-animation {
   animation:
     typewriter 5s steps(50) 1s normal both,
     blinkingCursor 500ms steps(50) infinite normal;
+}
+
+.blinking-cursor {
+  color: #eab308; /* Yellow-500 */
+  font-weight: bold;
+  animation: blink 0.8s step-end infinite;
 }
 
 .typewriter-delay {
@@ -285,23 +328,229 @@ body::after {
   animation: radar-pulse 2s infinite;
 }
 
-@keyframes radar-pulse {
+.evidence-photo .scanline {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  background-image: repeating-linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.3) 0px,
+    rgba(255, 255, 255, 0.1) 2px,
+    transparent 2px,
+    transparent 4px
+  );
+  opacity: 0.55;
+  background-size: 100% 8px;
+  mix-blend-mode: screen;
+  animation: scanline 4s linear infinite;
+}
+
+.evidence-photo:hover .scanline {
+  opacity: 0;
+}
+
+.glitch-text {
+  position: relative;
+  display: inline-block;
+}
+
+.glitch-text::before,
+.glitch-text::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.5;
+}
+
+.glitch-text::before {
+  color: #0ff;
+  z-index: -1;
+  animation: glitch 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite;
+}
+
+.glitch-text::after {
+  color: #f0f;
+  z-index: -2;
+  animation: glitch 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) reverse both
+    infinite;
+}
+
+/* 3. Top Secret Stamp Watermark */
+.top-secret-watermark {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-30deg);
+  font-size: 15vw;
+  color: rgba(255, 0, 0, 0.03); /* Extremely faint red */
+  font-weight: 900;
+  border: 10px solid rgba(255, 0, 0, 0.03);
+  padding: 20px;
+  pointer-events: none;
+  z-index: 0;
+  user-select: none;
+  text-transform: uppercase;
+}
+
+/* 4. Enhanced Redacted Text */
+.redacted {
+  position: relative;
+  background-color: #000;
+  color: transparent !important;
+  transition: all 0.5s ease;
+}
+.redacted:hover {
+  background-color: transparent;
+  color: #eab308 !important;
+  text-shadow: 0 0 8px #eab308;
+}
+
+#area51-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background-color: #0a0a0a;
+  /* Neutral-950 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition:
+    opacity 0.8s ease-out,
+    visibility 0.8s;
+}
+
+.loader-terminal {
+  width: 90%;
+  max-width: 500px;
+  padding: 30px;
+  border: 1px solid rgba(234, 179, 8, 0.3);
+  /* Yellow-500 with opacity */
+  background: linear-gradient(180deg, #171717 0%, #0a0a0a 100%);
+  position: relative;
+  box-shadow:
+    0 0 40px rgba(0, 0, 0, 1),
+    inset 0 0 20px rgba(234, 179, 8, 0.05);
+}
+
+/* CRT Scanline Effect */
+.loader-scanline {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: rgba(234, 179, 8, 0.1);
+  opacity: 0.5;
+  animation: scan 3s linear infinite;
+  pointer-events: none;
+}
+
+.loader-header {
+  color: #eab308;
+  /* Yellow-500 */
+  font-size: 10px;
+  letter-spacing: 2px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid rgba(234, 179, 8, 0.2);
+  padding-bottom: 10px;
+}
+
+#loader-log {
+  color: #a3a3a3;
+  /* Neutral-400 */
+  font-size: 12px;
+  margin-bottom: 10px;
+}
+
+.loader-progress-container {
+  width: 100%;
+  height: 4px;
+  background: #171717;
+  margin: 15px 0;
+  border: 1px solid #262626;
+}
+
+.loader-progress-bar {
+  width: 0%;
+  height: 100%;
+  background: #eab308;
+  box-shadow: 0 0 10px #eab308;
+  transition: width 0.4s ease;
+}
+
+.loader-status {
+  display: flex;
+  justify-content: space-between;
+  color: #eab308;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.loader-footer {
+  margin-top: 30px;
+  font-size: 9px;
+  color: #525252;
+  text-align: center;
+  line-height: 1.5;
+}
+
+.blink {
+  animation: blinker 1s step-start infinite;
+}
+
+.loader-hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* Glitch effect on the percentage */
+.decrypting-text {
+  animation: glitch-text 2s infinite;
+}
+
+/* Animations */
+@keyframes scan {
   0% {
-    box-shadow: 0 0 0 0px rgba(234, 179, 8, 0.4);
+    top: 0;
   }
+
   100% {
-    box-shadow: 0 0 0 20px rgba(234, 179, 8, 0);
+    top: 100%;
   }
 }
 
-/* Add a subtle vignette to the whole page */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  background: radial-gradient(circle, transparent 30%, rgba(0, 0, 0, 0.8) 100%);
-  pointer-events: none;
-  z-index: 100;
+@keyframes glitch {
+  0% {
+    transform: translate(0);
+  }
+  20% {
+    transform: translate(-2px, 2px);
+  }
+  40% {
+    transform: translate(-2px, -2px);
+  }
+  60% {
+    transform: translate(2px, 2px);
+  }
+  80% {
+    transform: translate(2px, -2px);
+  }
+  100% {
+    transform: translate(0);
+  }
+}
+
+@keyframes scanline {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 0 100%;
+  }
 }
 
 @keyframes fadeIn {
@@ -335,88 +584,42 @@ body::before {
   }
 }
 
-.evidence-photo {
-  position: relative;
-  overflow: hidden;
-}
-
-.evidence-photo .scanline {
-  position: absolute;
-  inset: 0;
-  z-index: 5;
-  pointer-events: none;
-  background-image: repeating-linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.3) 0px,
-    rgba(255, 255, 255, 0.1) 2px,
-    transparent 2px,
-    transparent 4px
-  );
-  opacity: 0.55;
-  background-size: 100% 8px;
-  mix-blend-mode: screen;
-  animation: scanline 4s linear infinite;
-}
-
-.evidence-photo:hover .scanline {
-  opacity: 0;
-}
-
-@keyframes scanline {
+@keyframes radar-pulse {
   0% {
-    background-position: 0 0;
+    box-shadow: 0 0 0 0px rgba(234, 179, 8, 0.4);
   }
   100% {
-    background-position: 0 100%;
+    box-shadow: 0 0 0 20px rgba(234, 179, 8, 0);
   }
 }
 
-.glitch-text {
-  position: relative;
-  display: inline-block;
-}
-
-.glitch-text::before,
-.glitch-text::after {
-  content: attr(data-text);
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  opacity: 0.5;
-}
-
-.glitch-text::before {
-  color: #0ff;
-  z-index: -1;
-  animation: glitch 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite;
-}
-
-.glitch-text::after {
-  color: #f0f;
-  z-index: -2;
-  animation: glitch 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) reverse both
-    infinite;
-}
-
-@keyframes glitch {
+@keyframes glitch-text {
   0% {
-    transform: translate(0);
+    opacity: 1;
   }
-  20% {
-    transform: translate(-2px, 2px);
+
+  5% {
+    opacity: 0.6;
+    transform: translateX(-1px);
   }
-  40% {
-    transform: translate(-2px, -2px);
+
+  10% {
+    opacity: 1;
+    transform: translateX(0);
   }
-  60% {
-    transform: translate(2px, 2px);
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0;
   }
-  80% {
-    transform: translate(2px, -2px);
+}
+@keyframes blink {
+  from,
+  to {
+    opacity: 1;
   }
-  100% {
-    transform: translate(0);
+  50% {
+    opacity: 0;
   }
 }

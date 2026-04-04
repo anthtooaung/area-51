@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Area 51 Loader</title>
+
+    <style>
+        body {
+            margin: 0;
+            background: #000;
+            color: #00ff9f;
+            font-family: "Courier New", monospace;
+            overflow: hidden;
+        }
+
+        /* CENTER */
+        .container {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* TERMINAL */
+        .terminal {
+            width: 600px;
+            max-width: 90%;
+        }
+
+        /* TEXT */
+        .line {
+            font-size: 13px;
+            margin: 6px 0;
+            opacity: 0;
+            transform: translateY(5px);
+            transition: all 0.3s ease;
+        }
+
+        /* PROGRESS */
+        .progress-bar {
+            margin-top: 15px;
+            width: 100%;
+            height: 5px;
+            background: rgba(0, 255, 159, 0.1);
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 100%;
+            width: 0%;
+            background: #00ff9f;
+            box-shadow: 0 0 8px #00ff9f;
+            transition: width 1.4s cubic-bezier(0.4, 0, 0.2, 1);
+            /* smooth easing */
+        }
+
+        /* FINAL */
+        .final {
+            margin-top: 15px;
+            font-size: 15px;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.5s ease;
+        }
+
+        /* SCANLINES */
+        .scanlines {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(to bottom,
+                    rgba(0, 255, 159, 0.05),
+                    rgba(0, 255, 159, 0.05) 1px,
+                    transparent 2px,
+                    transparent 4px);
+            pointer-events: none;
+        }
+
+        /* GLITCH (subtle now) */
+        .glitch {
+            animation: glitch 0.4s infinite;
+        }
+
+        @keyframes glitch {
+            0% {
+                text-shadow: 1px 0 red, -1px 0 blue;
+            }
+
+            50% {
+                text-shadow: -1px 0 red, 1px 0 blue;
+            }
+
+            100% {
+                text-shadow: 1px 0 red, -1px 0 blue;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="scanlines"></div>
+
+    <div class="container">
+        <div class="terminal" id="terminal"></div>
+    </div>
+
+    <script>
+        const terminal = document.getElementById("terminal");
+
+        const lines = [
+            "> CONNECTING TO SECURE SERVER...",
+            "> AUTHENTICATING...",
+            "> DECRYPTING FILES...",
+            "> ACCESSING AREA 51 ARCHIVE..."
+        ];
+
+        let i = 0;
+
+        /* TYPE SMOOTH */
+        function typeLine(text, cb) {
+            const el = document.createElement("div");
+            el.className = "line";
+            terminal.appendChild(el);
+
+            let j = 0;
+
+            function type() {
+                if (j < text.length) {
+                    el.textContent += text[j++];
+                    el.style.opacity = 1;
+                    el.style.transform = "translateY(0)";
+                    setTimeout(type, 12); // balanced speed
+                } else {
+                    cb && cb();
+                }
+            }
+
+            type();
+        }
+
+        /* RUN */
+        function run() {
+            if (i < lines.length) {
+                typeLine(lines[i], () => {
+                    i++;
+                    setTimeout(run, 100); // small delay = smooth flow
+                });
+            } else {
+                startProgress();
+            }
+        }
+
+        /* PROGRESS (SMOOTH, NO JUMPS) */
+        function startProgress() {
+            const bar = document.createElement("div");
+            bar.className = "progress-bar";
+
+            const fill = document.createElement("div");
+            fill.className = "progress";
+
+            bar.appendChild(fill);
+            terminal.appendChild(bar);
+
+            // trigger smooth fill
+            setTimeout(() => {
+                fill.style.width = "100%";
+            }, 100);
+
+            setTimeout(finish, 1500); // sync with animation
+        }
+
+        /* FINAL */
+        function finish() {
+            const final = document.createElement("div");
+            final.className = "final glitch";
+            final.textContent = "ACCESS GRANTED — DECLASSIFIED";
+            terminal.appendChild(final);
+
+            setTimeout(() => {
+                final.style.opacity = 1;
+                final.style.transform = "translateY(0)";
+            }, 100);
+
+            // smooth exit
+            setTimeout(() => {
+                document.body.style.transition = "opacity 0.6s ease";
+                document.body.style.opacity = "0";
+
+                setTimeout(() => {
+                    window.location.href = "area51.html";
+                }, 600);
+
+            }, 900);
+        }
+
+        /* START */
+        setTimeout(run, 200);
+    </script>
+
+</body>
+
+</html>

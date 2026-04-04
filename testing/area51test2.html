@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Area 51 | Accessing Data...</title>
+    <style>
+        #area51-loader {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background-color: #0a0a0a;
+            /* Neutral-950 */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.8s ease-out, visibility 0.8s;
+        }
+
+        .loader-terminal {
+            width: 90%;
+            max-width: 500px;
+            padding: 30px;
+            border: 1px solid rgba(234, 179, 8, 0.3);
+            /* Yellow-500 with opacity */
+            background: linear-gradient(180deg, #171717 0%, #0a0a0a 100%);
+            position: relative;
+            box-shadow: 0 0 40px rgba(0, 0, 0, 1), inset 0 0 20px rgba(234, 179, 8, 0.05);
+        }
+
+        /* CRT Scanline Effect */
+        .loader-scanline {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: rgba(234, 179, 8, 0.1);
+            opacity: 0.5;
+            animation: scan 3s linear infinite;
+            pointer-events: none;
+        }
+
+        .loader-header {
+            color: #eab308;
+            /* Yellow-500 */
+            font-size: 10px;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(234, 179, 8, 0.2);
+            padding-bottom: 10px;
+        }
+
+        #loader-log {
+            color: #a3a3a3;
+            /* Neutral-400 */
+            font-size: 12px;
+            margin-bottom: 10px;
+        }
+
+        .loader-progress-container {
+            width: 100%;
+            height: 4px;
+            background: #171717;
+            margin: 15px 0;
+            border: 1px solid #262626;
+        }
+
+        .loader-progress-bar {
+            width: 0%;
+            height: 100%;
+            background: #eab308;
+            box-shadow: 0 0 10px #eab308;
+            transition: width 0.4s ease;
+        }
+
+        .loader-status {
+            display: flex;
+            justify-content: space-between;
+            color: #eab308;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .loader-footer {
+            margin-top: 30px;
+            font-size: 9px;
+            color: #525252;
+            text-align: center;
+            line-height: 1.5;
+        }
+
+        /* Animations */
+        @keyframes scan {
+            0% {
+                top: 0;
+            }
+
+            100% {
+                top: 100%;
+            }
+        }
+
+        .blink {
+            animation: blinker 1s step-start infinite;
+        }
+
+
+
+        .loader-hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        /* Glitch effect on the percentage */
+        .decrypting-text {
+            animation: glitch-text 2s infinite;
+        }
+
+        @keyframes glitch-text {
+            0% {
+                opacity: 1;
+            }
+
+            5% {
+                opacity: 0.6;
+                transform: translateX(-1px);
+            }
+
+            10% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes blinker {
+            50% {
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Area 51 Security Loader -->
+    <div id="area51-loader">
+        <div class="loader-terminal">
+            <div class="loader-scanline"></div>
+
+            <div class="loader-header">
+                <span class="blink">●</span> SIGNAL ESTABLISHED: GROOM LAKE / SECTOR 4
+            </div>
+
+            <div class="loader-content">
+                <p id="loader-log">INITIALIZING BRUTE FORCE DECRYPTION...</p>
+                <div class="loader-progress-container">
+                    <div class="loader-progress-bar" id="loader-bar"></div>
+                </div>
+                <div class="loader-status">
+                    <span class="decrypting-text">DECRYPTING ARCHIVE</span>
+                    <span id="loader-percent">0%</span>
+                </div>
+            </div>
+
+            <div class="loader-footer">
+                SECURITY LEVEL: <span class="text-yellow-500">MAJESTIC-12</span><br>
+                UNAUTHORIZED ACCESS IS PUNISHABLE BY DEADLY FORCE
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const progressBar = document.getElementById("loader-bar");
+            const percentText = document.getElementById("loader-percent");
+            const logText = document.getElementById("loader-log");
+            const loader = document.getElementById("area51-loader");
+
+            const logs = [
+                "ESTABLISHING HANDSHAKE...",
+                "BYPASSING NSA FIREWALL...",
+                "EXTRACTING GROOM LAKE ARCHIVES...",
+                "DECRYPTING SECTOR 4 BIOMETRICS...",
+                "ACCESS GRANTED."
+            ];
+
+            let progress = 0;
+            let logIndex = 0;
+
+            const interval = setInterval(() => {
+                // Randomize increment for a "hacking" feel
+                progress += Math.floor(Math.random() * 15) + 5;
+
+                if (progress >= 100) {
+                    progress = 100;
+                    clearInterval(interval);
+
+                    // Final Log
+                    logText.innerText = logs[logs.length - 1];
+
+                    // Hide Loader after a small delay
+                    setTimeout(() => {
+                        loader.classList.add("loader-hidden");
+                    }, 800);
+                }
+
+                // Update Log text based on progress
+                if (progress > (logIndex + 1) * 20 && logIndex < logs.length - 1) {
+                    logIndex++;
+                    logText.innerText = logs[logIndex];
+                }
+
+                progressBar.style.width = progress + "%";
+                percentText.innerText = progress + "%";
+            }, 250);
+        });
+    </script>
+</body>
+
+</html>

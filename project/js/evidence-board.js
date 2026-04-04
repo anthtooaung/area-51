@@ -1,4 +1,5 @@
-document.addEventListener("DOMContentLoaded", () => {  const board = document.getElementById("board");
+document.addEventListener("DOMContentLoaded", () => {
+  const board = document.getElementById("board");
   const canvas = document.getElementById("string-canvas");
   const ctx = canvas.getContext("2d");
   const items = document.querySelectorAll(".evidence-item");
@@ -193,4 +194,28 @@ document.addEventListener("DOMContentLoaded", () => {  const board = document.ge
 
   // Give DOM a split second to paint before getting positions
   setTimeout(resizeCanvas, 50);
+
+  const progressBar = document.getElementById("loader-bar");
+  const percentText = document.getElementById("loader-percent");
+  const loader = document.getElementById("area51-loader");
+
+  let progress = 0;
+  const loaderInterval = setInterval(() => {
+    progress += Math.floor(Math.random() * 8) + 2;
+    if (progress >= 100) {
+      progress = 100;
+      clearInterval(loaderInterval);
+
+      setTimeout(() => {
+        if (loader) {
+          loader.style.opacity = "0";
+          setTimeout(() => {
+            loader.style.display = "none";
+          }, 800);
+        }
+      }, 1000);
+    }
+    if (progressBar) progressBar.style.width = `${progress}%`;
+    if (percentText) percentText.innerText = `${progress}%`;
+  }, 100);
 });

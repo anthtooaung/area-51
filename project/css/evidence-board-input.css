@@ -1,4 +1,5 @@
-@import "tailwindcss";:root {
+@import "tailwindcss";
+:root {
   --string-color: rgba(220, 38, 38, 0.6); /* Red String */
 }
 
@@ -291,4 +292,179 @@ body {
   width: 400px;
   font-size: 22px;
   padding: 30px;
+}
+#area51-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background-color: #0a0a0a;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition:
+    opacity 0.8s ease-out,
+    visibility 0.8s;
+}
+
+.loader-terminal {
+  width: 90%;
+  max-width: 500px;
+  padding: 30px;
+  border: 1px solid rgba(234, 179, 8, 0.3);
+  background: linear-gradient(180deg, #171717 0%, #0a0a0a 100%);
+  position: relative;
+  box-shadow:
+    0 0 40px rgba(0, 0, 0, 1),
+    inset 0 0 20px rgba(234, 179, 8, 0.05);
+}
+
+.loader-scanline {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: rgba(234, 179, 8, 0.1);
+  opacity: 0.5;
+  animation: scan 3s linear infinite;
+  pointer-events: none;
+}
+
+.loader-header {
+  color: #eab308;
+  font-size: 10px;
+  letter-spacing: 2px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid rgba(234, 179, 8, 0.2);
+  padding-bottom: 10px;
+}
+
+#loader-log {
+  color: #a3a3a3;
+  font-size: 12px;
+  margin-bottom: 10px;
+}
+
+.loader-progress-container {
+  width: 100%;
+  height: 4px;
+  background: #171717;
+  margin: 15px 0;
+  border: 1px solid #262626;
+}
+
+.loader-progress-bar {
+  width: 0%;
+  height: 100%;
+  background: #eab308;
+  box-shadow: 0 0 10px #eab308;
+  transition: width 0.4s ease;
+}
+
+.loader-status {
+  display: flex;
+  justify-content: space-between;
+  color: #eab308;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.loader-footer {
+  margin-top: 30px;
+  font-size: 9px;
+  color: #525252;
+  text-align: center;
+  line-height: 1.5;
+}
+
+.blink {
+  animation: blinker 1s step-start infinite;
+}
+
+.loader-hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.decrypting-text {
+  animation: glitch-text 2s infinite;
+}
+
+@keyframes scan {
+  0% {
+    top: 0;
+  }
+  100% {
+    top: 100%;
+  }
+}
+
+@keyframes glitch {
+  0% {
+    transform: translate(0);
+  }
+  20% {
+    transform: translate(-2px, 2px);
+  }
+  40% {
+    transform: translate(-2px, -2px);
+  }
+  60% {
+    transform: translate(2px, 2px);
+  }
+  80% {
+    transform: translate(2px, -2px);
+  }
+  100% {
+    transform: translate(0);
+  }
+}
+
+@keyframes scanline {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 0 100%;
+  }
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes typewriter {
+  0% {
+    width: 0;
+  }
+  25% {
+    width: 100%;
+  }
+}
+
+@keyframes blinkingCursor {
+  from {
+    border-right-color: var(--color-neutral-600);
+  }
+  to {
+    border-right-color: transparent;
+  }
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes blink {
+  from,
+  to {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
 }
